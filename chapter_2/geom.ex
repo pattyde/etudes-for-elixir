@@ -1,9 +1,9 @@
 defmodule Geom do
-  @@moduledoc """
+  @moduledoc """
   Calculates the area of a geometric shape
   """
 
-  @@doc """
+  @doc """
   Calculates the area of a square or rectangle given the length and height. The
   default for both arguments is 1
 
@@ -18,7 +18,7 @@ defmodule Geom do
     1
 
   """
-  def area(l \\ 1, w \\ 1) do
-    l * w
+  def area(length \\ 1, width \\ 1) do
+    length * width
   end
 end
