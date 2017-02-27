@@ -58,12 +58,18 @@ defmodule AskArea do
 
   @doc """
   Prompts user to enter a dimension.
+  Accepts an integer or a float.
   """
   @spec get_number(String.t()) :: number()
 
   def get_number(prompt) do
     input = IO.gets("Enter #{prompt}: ")
-    String.to_integer(String.strip(input))
+    input_string = String.strip(input)
+    cond do
+      Regex.match?(~r/^\d+$/, input_string) -> String.to_integer(input_string)
+      Regex.match?(~r/^\d+\.\d+$/, input_string) -> String.to_float(input_string)
+      true -> :error
+    end
   end
 
   @doc """
@@ -71,6 +77,15 @@ defmodule AskArea do
   errors.
   """
   @spec calculate(atom(), number(), number()) :: number()
+
+  def calculate(_shape, :error, _) do
+    IO.puts("First dimension is not a number. Try again.")
+  end
+
+  def calculate(_shape, _, :error) do
+    IO.puts("Second dimension is not a number. Try again.")
+  end
+
   def calculate(shape, dim_one, dim_two) do
     cond do
       shape == :unknown -> IO.puts("Unknown shape: #{dim_one}")
